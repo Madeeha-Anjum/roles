@@ -1,0 +1,29 @@
+[project]
+name = "roles"
+version = "0.1.0"
+description = "User roles and permissions"
+authors = [{ name = "---", email = "abc@email.com" }]
+requires-python = "==3.12.*"
+readme = "README.md"
+license = { text = "MIT" }
+
+dependencies = [
+    "fastapi[standard]>=0.115.5",
+    "SQLAlchemy>=2.0.36",
+    "alembic>=1.14.0",
+]
+
+[tool.pdm.dev-dependencies]
+dev = ["pytest>=6.2.4"]
+
+[tool.pdm] # install dependencies in a virtual environment
+install.isolated = false
+
+[tool.pdm.scripts]
+# pdm run <script_name>
+start = "uvicorn app.main:app --reload"
+migrate = "alembic upgrade head"
+create_migration = "alembic revision --autogenerate -m 'migration message'"
+install_local = "pdm install --venv --no-self -v"
+generate_req_local = "pdm export -f requirements --without-hashes --pyproject -d -v"
+generate_req_prod = "pdm export -f requirements --without-hashes --pyproject --prod -v"
