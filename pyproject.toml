@@ -10,7 +10,9 @@ license = { text = "MIT" }
 dependencies = [
     "fastapi[standard]>=0.115.5",
     "SQLAlchemy>=2.0.36",
-    "alembic>=1.14.0",
+    "alembic>=1.14.1",
+    "pydantic-settings>=2.7.1",
+    "psycopg2-binary>=2.9.10",
 ]
 
 [tool.pdm.dev-dependencies]
@@ -22,8 +24,10 @@ install.isolated = false
 [tool.pdm.scripts]
 # pdm run <script_name>
 start = "uvicorn app.main:app --reload"
-migrate = "alembic upgrade head"
-create_migration = "alembic revision --autogenerate -m 'migration message'"
-install_local = "pdm install --venv --no-self -v"
-generate_req_local = "pdm export -f requirements --without-hashes --pyproject -d -v"
-generate_req_prod = "pdm export -f requirements --without-hashes --pyproject --prod -v"
+add_migration = "alembic revision --autogenerate -m" # <'message'>
+migrate = "alembic upgrade head" # apply migrations to the database
+downgrade = "alembic downgrade" # <-1> or <revision_id>
+install = "pdm install --venv --no-self -v --prod"
+install_all = "pdm install --venv --no-self -v"
+requirements = "pdm export -f requirements --without-hashes --pyproject --prod -v --output requirements.txt"
+requirements_all = "pdm export -f requirements --without-hashes --pyproject -v --output requirements.txt" # include dev dependencies
