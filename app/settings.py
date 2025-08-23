@@ -1,3 +1,4 @@
+from typing import ClassVar
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -7,12 +8,14 @@ class Settings(BaseSettings):
         # `.env.prod` takes priority over `.env`
         env_file=('.env', '.env.prod'),
         env_file_encoding='utf-8')
+    
     ENVIRONMENT: str
     HOST: str
     PORT: str
     DB_NAME: str
     DB_USER: str
     DB_PASS: str
+    SCHEMA_NAME: ClassVar[str] = "roles"
 
 
 settings = Settings()

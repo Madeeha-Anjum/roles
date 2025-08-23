@@ -22,12 +22,16 @@ dev = ["pytest>=6.2.4"]
 install.isolated = false
 
 [tool.pdm.scripts]
+
+
+create_migration = "alembic revision --autogenerate -m" # <'message'>
+add_migration = "alembic revision -m" # <'message'>
+migrate = "alembic upgrade head" # apply migrations from alembic/versions
+
 # pdm run <script_name>
 start = "uvicorn app.main:app --reload"
-add_migration = "alembic revision --autogenerate -m" # <'message'>
-migrate = "alembic upgrade head" # apply migrations to the database
-downgrade = "alembic downgrade" # <-1> or <revision_id>
 install = "pdm install --venv --no-self -v --prod"
 install_all = "pdm install --venv --no-self -v"
+
 requirements = "pdm export -f requirements --without-hashes --pyproject --prod -v --output requirements.txt"
 requirements_all = "pdm export -f requirements --without-hashes --pyproject -v --output requirements.txt" # include dev dependencies
