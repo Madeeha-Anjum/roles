@@ -1,0 +1,112 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ../..:/workspaces:cached 
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sleep infinity
+    env_file:
+      - .env 
+
+ 
+  db:
+    image: postgres:18-trixie
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    environment:
+      - POSTGRES_USER=${PG_USERNAME}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DB_NAME}
+    healthcheck: 
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USERNAME} -d ${PG_DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgAdmin:
+    image: dpage/pgadmin4:9.10
+    restart: always
+    ports:
+      - 8080:80 # Maps host port 8080 to container port 80
+    depends_on:
+      db: 
+        condition: service_healthy
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - POSTGRES_HOST=db # Hostname of the PostgreSQL service
+      - POSTGRES_USER=${PG_USERNAME}
+      - POSTGRES_PORT=${PG_PORT}
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_DB=${PG_DB_NAME}
+      # preventing the login screen after initial setup
+      - PGADMIN_CONFIG_SERVER_MODE=False
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+    configs:
+      # Inject the servers.json configuration directly into the container
+      # Inject the preferences.json configuration directly into the container
+      - source: servers.json
+        target: /pgadmin4/servers.json
+        mode: 0444 # read-only
+      - source: preferences.json
+        target: /pgadmin4/preferences.json
+        mode: 0444 # read-only
+      - source: pgpass
+        target: /config/pgpass
+        uid: "5050" # owned by pgadmin user
+        gid: "5050" 
+        mode: 0400 # read-only
+
+# Define Docker volumes for persistent data
+volumes:
+  postgres-data:
+    driver: local # Host's local disk
+  pgadmin-data:
+    driver: local # Host's local disk
+
+
+# Define the Docker Compose configs for servers.json and preferences.json
+# db is on port 5432 so pgAdmin can connect to it and expose it on 8080
+configs:
+  preferences.json:
+    content: |
+      {
+        "preferences": {
+          "misc:themes:theme": "dark",
+          "browser:display:show_system_objects": true,
+          "browser:display:confirm_on_refresh_close": false,
+          "browser:display:show_user_defined_templates": true
+        }
+      }
+  servers.json:
+    content: |
+      {
+        "Servers": {
+          "1": {
+            "Group": "Servers",
+            "Name": "${PG_DB_NAME} Server",
+            "Host": "db",  
+            "Port": ${PG_PORT},
+            "MaintenanceDB": "${PG_DB_NAME}",
+            "Username": "${PG_USERNAME}",
+            "SSLMode": "prefer",
+            "Comment": "This server connects to the PostgreSQL instance defined in this Docker Compose file."
+          }
+        }
+      }
+
+  pgpass:
+    content: |
+      db:${PG_PORT}:*:${PG_USERNAME}:${PG_PASSWORD}

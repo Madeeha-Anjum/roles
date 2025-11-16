@@ -1,0 +1,3 @@
+# fastapi[standard] includes pydantic, starlette, and unicorn as dependencies
+fastapi[standard]>=0.121.2
+alembic>=1.17.0

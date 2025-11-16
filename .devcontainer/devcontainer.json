@@ -1,0 +1,43 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/postgres
+{
+	"name": "roles",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {}
+	},
+	"forwardPorts": [
+		8000, // api
+		// 5432, // database not exposed
+		8080 // pgadmin
+	],
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"python.analysis.diagnosticMode": "openFilesOnly",
+				"[python]": {
+					"editor.formatOnSave": false,
+					"editor.defaultFormatter": "black-formatter.black-formatter"
+				},
+			},
+			"extensions": [
+				"eamodio.gitlens",
+				"yzhang.markdown-all-in-one",
+				"ms-python.pylint",
+				"ms-python.vscode-pylance",
+				"ms-python.python",
+				"streetsidesoftware.code-spell-checker",
+				"ms-azuretools.vscode-docker",
+				"alexkev.clg",
+				"usernamehw.errorlens",
+				"redhat.vscode-yaml",
+				"GitHub.vscode-pull-request-github"
+			]
+		}
+	},
+	"postCreateCommand": "fastapi dev main.py --reload",
+	// Use 'root' user to avoid permission issues
+	"remoteUser": "root"
+}
