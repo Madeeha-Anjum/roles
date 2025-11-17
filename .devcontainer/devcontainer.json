@@ -6,7 +6,8 @@
 	"service": "app",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"features": {
-		"ghcr.io/devcontainers/features/git:1": {}
+		"ghcr.io/devcontainers/features/git:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
 	},
 	"forwardPorts": [
 		8000, // api
@@ -33,7 +34,8 @@
 				"alexkev.clg",
 				"usernamehw.errorlens",
 				"redhat.vscode-yaml",
-				"GitHub.vscode-pull-request-github"
+				"GitHub.vscode-pull-request-github",
+				"shd101wyy.markdown-preview-enhanced"
 			]
 		}
 	},
