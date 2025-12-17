@@ -1,3 +1,5 @@
-# fastapi[standard] includes pydantic, starlette, and unicorn as dependencies
-fastapi[standard]>=0.121.2
-alembic>=1.17.0
+fastapi[standard]>=0.124.4 # includes pydantic, starlette, and uvicorn
+alembic>=1.17.2 # for database migrations
+pydantic-settings==2.12.0 # for environment variable management
+sqlmodel==0.0.27
+psycopg[binary]>=3.3.2 # PostgreSQL database adapter

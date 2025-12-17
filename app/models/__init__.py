@@ -1,3 +1,7 @@
-from .base import *
-from .address import *
-from .user import *
+from .address import Address
+from .user import User
+
+__all__ = [
+    "User",
+    "Address",
+]

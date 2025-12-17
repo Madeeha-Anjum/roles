@@ -8,14 +8,14 @@
 
 - VsCode (with Dev Containers Extension)
 - Git
-- Add a `.env` file in the .devcontainer folder with the following variables:
+- Add a `.env` file in the root directory with the following content:
 
 ```env
 ENVIRONMENT="local"
 PG_DB_NAME="rools_db"
 PG_USERNAME="appuser"
 PG_PASSWORD="apppassword"
-PG_HOSTNAME="localhost"
+PG_HOSTNAME="db"
 PG_PORT=5432
 ```
 
@@ -25,36 +25,27 @@ PG_PORT=5432
    - VsCode Command Palette: `Dev Containers: Reopen in Container
 
 2. Project start:
-   - Fast API starts on <https://localhost:8000>
+   - Fast API starts on <https://localhost:8000
+   - documentation available on <https://localhost:8000/docs>
    - PgAdmin starts on <https://localhost:8080>
 
 ## Additional Available Commands
 
-**Starting the application in development mode:**
+### Starting the application in development mode
 
 ```bash
 fastapi dev main.py
 ```
 
-**create_migration**
-
+### Create and apply a db migration
 ```bash
-alembic revision --autogenerate -m 'migration message'
+alembic init migrations (to initialize alembic folder / allready done)
+alembic revision --autogenerate -m "create users table"
+alembic upgrade head`
 ```
+ 
 
-**migrate**
-
-```bash
-alembic upgrade head
-```
-
-**downgrade**
-
-```bash
-alembic downgrade -1
-```
-
-#### Connecting dev container to GitHub Repo :link:
+### Connecting dev container to GitHub Repo :link:
 
 1. Authenticate GitHub CLI:
 
@@ -74,7 +65,7 @@ alembic downgrade -1
    git remote set-url origin https://github.com/Madeeha-Anjum/roles.git
 ```
 
-#### Container commands :mag:
+### Container commands
 
 - List all running containers and read the container ID
 
@@ -94,7 +85,7 @@ docker logs <container_id>
 docker exec -it <container_id> /bin/bash
 ```
 
-#### Postgres database access
+### Postgres database access
 
 ```bash
 docker exec -it <container_id> 
