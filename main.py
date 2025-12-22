@@ -1,18 +1,18 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from app.core.config import settings
-from app.core.database import initialize_orm
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # ⭐ This runs BEFORE the app starts receiving requests
-    initialize_orm()
+    print("Starting up...")
 
     yield
 
     # ⭐ This runs AFTER the app finishes (shutdown)
     # you normally close DB pools, cleanup stuff here
+    print("Shutting down...")
     pass
 
 

@@ -39,9 +39,9 @@ fastapi dev main.py
 
 ### Create and apply a db migration
 ```bash
-alembic init migrations (to initialize alembic folder / allready done)
+alembic init migrations (to initialize alembic folder / already done)
 alembic revision --autogenerate -m "create users table"
-alembic upgrade head`
+alembic upgrade head
 ```
  
 
