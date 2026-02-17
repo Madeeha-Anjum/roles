@@ -1,4 +1,4 @@
-fastapi[standard]>=0.124.4 # includes pydantic, starlette, and uvicorn
+fastapi[standard]>=0.128.0 # includes pydantic, starlette, and uvicorn
 alembic>=1.17.2 # for database migrations
 pydantic-settings==2.12.0 # for environment variable management
 sqlmodel==0.0.27

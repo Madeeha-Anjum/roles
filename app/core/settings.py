@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-
+from app.core.enums import Environment
 
 class Settings(BaseSettings):
 
@@ -7,8 +7,8 @@ class Settings(BaseSettings):
         env_file=(".env"),
         env_file_encoding="utf-8",
     )
-    PROJECT_NAßME: str = "FastAPI Application"
-    ENVIRONMENT: str 
+    PROJECT_NAME: str = "FastAPI Application"
+    ENVIRONMENT: Environment
     PG_DB_NAME: str 
     PG_USERNAME: str 
     PG_PASSWORD: str 
@@ -22,6 +22,8 @@ class Settings(BaseSettings):
             f"postgresql+psycopg://{self.PG_USERNAME}:{self.PG_PASSWORD}"
             f"@{self.PG_HOSTNAME}:{self.PG_PORT}/{self.PG_DB_NAME}"
         )
+
+
 
 
 settings = Settings()

@@ -25,7 +25,7 @@ PG_PORT=5432
    - VsCode Command Palette: `Dev Containers: Reopen in Container
 
 2. Project start:
-   - Fast API starts on <https://localhost:8000
+   - Fast API starts on <<https://localhost:8000>
    - documentation available on <https://localhost:8000/docs>
    - PgAdmin starts on <https://localhost:8080>
 
@@ -34,16 +34,16 @@ PG_PORT=5432
 ### Starting the application in development mode
 
 ```bash
-fastapi dev main.py
+fastapi dev main.py 
 ```
 
 ### Create and apply a db migration
+
 ```bash
 alembic init migrations (to initialize alembic folder / already done)
 alembic revision --autogenerate -m "create users table"
 alembic upgrade head
 ```
- 
 
 ### Connecting dev container to GitHub Repo :link:
 
@@ -53,13 +53,13 @@ alembic upgrade head
    gh auth login.  
 ```
 
-2. Verify remote URL:
+1. Verify remote URL
 
 ```bash
    git remote -v
 ```
 
-3. If needed, set the correct remote URL:
+1. If needed, set the correct remote URL
 
 ```bash
    git remote set-url origin https://github.com/Madeeha-Anjum/roles.git

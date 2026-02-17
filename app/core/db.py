@@ -1,5 +1,5 @@
 from sqlmodel import SQLModel, create_engine, Session
-from app.core.config import settings
+from app.core.settings import settings
 
 # import all models before calling SQLModel.metadata.create_all()
 from app.models import *
